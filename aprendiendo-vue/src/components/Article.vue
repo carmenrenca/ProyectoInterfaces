@@ -1,12 +1,15 @@
 <template>
+
+
   <div class="general">
    
     <div class="center">
       <section id="content">
+         <b-card class="">
         <article class="article-item article-detail" v-if="article">
-          <div class="image-wrap">
-            <img
-            :src="url+'get-image/'+article.imagen" :alt="article.title" v-if="article.imagen"
+          <div class="imgA">
+            <img 
+            :src="url+'get-image/'+article.imagen" :alt="article.title" v-if="article.imagen" class="imgstyle"
             />
        
           </div>
@@ -17,7 +20,9 @@
           <div class="clearfix"></div>
           <router-link :to="'/editarticle/'+article._id" class="btn btn-warning">Editar</router-link>
                 <a @click="deleteArticle(article._id)" to="/eliminar" class="btn btn-danger">Eliminar</a>
+       <p class="display-4" style="text-align:right">{{article.precio}}€</p>
         </article>
+         </b-card>
       </section>
       <Sidebar></Sidebar>
     </div>

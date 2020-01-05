@@ -1,7 +1,10 @@
- 
 <template>
-  <div id="app">
-    <HeaderComponent></HeaderComponent>
+  <div id="app" >
+    <div v-if="route!='login' && route!='registro'" >
+
+ <HeaderComponent></HeaderComponent>
+    </div>
+   
     
     <div class="center">
       <!--<LastArticle></LastArticle>-->
@@ -21,13 +24,18 @@ import HeaderComponent from "./components/HeaderComponent.vue";
 import FooterComponent from "./components/FooterComponent.vue";
 export default {
   name: "app",
-
   components: {
     HeaderComponent,
    // Slider,
   
    // LastArticle,
     FooterComponent
+  },
+  computed: {
+  route: function  currentRouteName() {
+    console.log(this.$route.name)
+        return this.$route.name;
+    }
   }
 };
 </script>

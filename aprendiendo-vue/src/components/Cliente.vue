@@ -125,6 +125,7 @@ import { global } from "../global";
 import Sidebar from "./sidebar.vue";
 import swal from "sweetalert";
 import Cliente from "../models/Cliente.js";
+ 
 export default {
   name: "Cliente",
 
@@ -151,6 +152,8 @@ export default {
   },
   data() {
     return {
+    myHeaders: new Headers(),
+     
       url: global.url,
       submite: false,
       cliente: new Cliente("", "", "", 0, "", "", ""),
@@ -159,7 +162,8 @@ export default {
     };
   },
   mounted() {
-    this.getClientes();
+     this.myHeaders.append('authorization', `Bearer ${localStorage.token}`),
+    this.GETCLIENTES();
   },
   methods: {
     mostrarusuario() {
@@ -202,10 +206,15 @@ export default {
           console.log(this.cliente);
         });
     },
-    getClientes() {
-      axios
-        .get(this.url + "clientes")
-        .then(res => {
+
+  GETCLIENTES(){
+ return axios({
+          method: 'GET',
+          url: this.url+"clientes/",
+          headers: this.myHeaders,
+          
+        }).then(res => {
+          console.log(res)
           if (res.data.status == "success") {
             this.cliente = res.data.clientes;
             this.clientesList.push(res.data.clientes);
@@ -215,7 +224,10 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+  },
+
+
+
 
     deleteCliente(clienteId) {
       axios.delete(this.url + "clientes-delete/" + clienteId).then(res => {

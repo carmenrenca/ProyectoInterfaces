@@ -1,9 +1,12 @@
 <template>
+
+
 <div class="general">
     <Slider></Slider>
     <div class="center">
   <section id="content">
     <h1 class="subheader">Articulos</h1>
+    
     <div id="articles" v-if="articles">
                <Articles :articles="articles"></Articles>       
                     <!--AÑADIR ARTICULOS VIA JS-->
@@ -12,7 +15,9 @@
   </section>
     <Sidebar></Sidebar>
     </div>
-    <div class="clearfix"></div>
+    <div class="clearfix">
+      
+    </div>
   </div>
 </template>
 

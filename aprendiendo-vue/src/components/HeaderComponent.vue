@@ -25,6 +25,8 @@
                           <router-link to="/Factura" active-class="active">Facturas</router-link>
 
                         </li>
+<button v-on:click="cerrarsesion()">cerrar</button>
+                       
                                             
                     </ul>
                 </nav>
@@ -38,6 +40,16 @@
 
 <script>
 export default {
-    name:'HeaderComponent'
+    name:'HeaderComponent',
+     methods:{
+         cerrarsesion(){
+             localStorage.removeItem('token')
+             
+            
+            setTimeout(() => {
+              this.$router.push("/")
+            }, 1500)
+         }
+     }
 }
 </script>

@@ -20,24 +20,32 @@ import Redirect from './components/redirect.vue';
 import Article from './components/Article.vue';
 import CreateArticle from './components/CreateArticle.vue';
 import EditArticle from './components/EditArticle.vue';
+import login from './components/login.vue';
+import registro from './components/registre.vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-
-
+import vuetify from './plugins/vuetify';
+import Vuetify from 'vuetify/lib'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+//import hooks from './router/hooks'
+Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(BootstrapVue)
 Vue.use(Vuelidate);
+Vue.use(vuetify);
 
 Vue.use(VueMoment,{
   moment
 });
-const routes=[
+
+
+const  routes=[
   //RUTAS BLOG CLIENTE
   {path:'/home', component: LastArticle},
   {path:'/ultimos-articulos', component: LastArticle},
   {path:'/mi-componente', component: MiComponente},
   {path:'/Hola-word', component: HelloWorld},
-  {path:'/', component: LastArticle},
+  {path:'/LastArticle', component: LastArticle},
   {path:'/Blog', component:Blog},
   {path:'/articulo/:id', name:'article', component: Article},
   {path:'/Pagina1', component:Pagina},
@@ -48,12 +56,14 @@ const routes=[
   {path:'/Factura', name:'Factura', component:Factura},
   {path:'/createarticle', name:'create', component:CreateArticle},
   {path:'/editarticle/:id', name:'edit', component:EditArticle},
+  {path:'/',component:login,  name:'login'},
+  {path:'/registro',component:registro,  name:'registro'},
   //RUTAS GESTION
 
   {path:'*', component: ErrorComponent}
   
-];
-
+]
+//hooks(this.routes)
 const router = new VueRouter({
   routes,
   mode: 'history'
@@ -61,6 +71,8 @@ const router = new VueRouter({
 
 new Vue({
   router,
- 
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
+
+
