@@ -1,0 +1,137 @@
+<template>
+  <div class="general">
+    <div class="center">
+      <section id="content">
+        <h1 class="subheader">Edita Cliente</h1>
+        <form class="mid-form" v-on:submit.prevent="save()">
+          <div class="form-group">
+            <label for="title">Nombre</label>
+            <input type="text" name="title" v-model="cliente.nombre" />
+          </div>
+
+          <div class="form-group">
+            <label for="precio">Apellidos</label>
+            <input type="text" name="title" v-model="cliente.apellido" />
+          </div>
+          <div class="form-group">
+            <label for="stock">Direccion</label>
+            <input type="text" name="stock" v-model="cliente.direccion" />
+          </div>
+     <div class="form-group">
+            <label for="stock">Telefono</label>
+            <input type="text" name="stock" v-model="cliente.telefono" />
+          </div>
+           <div class="form-group">
+            <label for="stock">DNI</label>
+            <input type="text" name="stock" v-model="cliente.dni" />
+          </div>
+      
+       <a @click="deleteCliente(cliente._id)" to="/eliminar" class="btn btn-danger">Eliminar</a>
+          <input type="submit" value="Guardar" class="btn btn-success" />
+        </form>
+      </section>
+      <Sidebar></Sidebar>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</template>
+
+<script>
+import Sidebar from "./sidebar.vue";
+import { global } from "../global";
+import Cliente from "../models/Cliente";
+import axios from "axios";
+import swal from "sweetalert";
+//import {required, minLength} from 'vuelidate/lib/validators';
+export default {
+  name: "EditCliente",
+  components: {
+    Sidebar
+  },
+  data() {
+    return {
+      clienteID:'',
+      file: "",
+      url: global.url,
+      cliente: new Cliente("", "", "", 0, "", "", ""),
+       clientes: new Cliente("", "", "", 0, "", "", ""),
+    
+      isEdit: true
+    };
+  },
+  mounted() {
+    this.clienteID = this.$route.params.id;
+    console.log(this.clienteID);
+    this.getclientes(this.clienteID);
+  },
+  methods: {
+   save () {
+          
+        return axios({
+          method: 'POST',
+          url: this.url+"signup/",
+         data:this.clientes
+          
+        })
+          .then(response => response.data )
+          .then(data => {
+            
+            console.log(data)
+         if(data.status!="error"){
+ localStorage.setItem('token',data.token)
+   swal(
+              "Cliente Creado",
+              "el Cliente se ha creado correctamente :)",
+              "success"
+            );
+            setTimeout(() => {
+              this.$router.push("/Cliente")
+            }, 1500)
+         }else{
+            swal(
+              "Direccion Existente",
+              "Esa direccion ya existe prueba con otra ",
+              "error"
+            );
+         }
+ 
+           
+          
+          }).catch(err=>{
+            console.log(err+"Ese usuario no existe")
+    
+          })
+      },
+ 
+   getclientes(){
+ return axios({
+          method: 'GET',
+          url: this.url+"cliente/"+this.clienteID,
+
+          
+        }).then(res => {
+          console.log(res)
+          if (res.data.status == "success") {
+            this.cliente = res.data.cliente;
+    console.log( res.data.cliente+"2222")
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  },
+
+     deleteCliente(clienteId) {
+      axios.delete(this.url + "clientes-delete/" + clienteId).then(res => {
+        console.log(res);
+        swal(
+          "Cliente Eliminado",
+          "El Cliente se ha borrado correctamente",
+          "success"
+        );
+        this.$router.push("/Cliente");
+      });
+    }
+  }
+};
+</script>

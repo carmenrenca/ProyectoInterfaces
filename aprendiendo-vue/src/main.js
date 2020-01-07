@@ -18,7 +18,9 @@ import Cliente from './components/Cliente.vue';
 import Search from './components/Search.vue';
 import Redirect from './components/redirect.vue';
 import Article from './components/Article.vue';
+import ClienteGes from './components/ClienteGestion.vue';
 import CreateArticle from './components/CreateArticle.vue';
+import CreateCliente from './components/CreateCliente';
 import EditArticle from './components/EditArticle.vue';
 import login from './components/login.vue';
 import registro from './components/registre.vue';
@@ -48,6 +50,7 @@ const  routes=[
   {path:'/LastArticle', component: LastArticle},
   {path:'/Blog', component:Blog},
   {path:'/articulo/:id', name:'article', component: Article},
+  {path:'/cliente/:id', name:'cliente', component: ClienteGes},
   {path:'/Pagina1', component:Pagina},
   {path:'/Cliente', component:Cliente},
   {path:'/Articulos', name:'Articulos', component:Articulos},
@@ -55,6 +58,7 @@ const  routes=[
   {path:'/buscador/:searchString', component:Search},
   {path:'/Factura', name:'Factura', component:Factura},
   {path:'/createarticle', name:'create', component:CreateArticle},
+  {path:'/createcliente', name:'createcliente', component:CreateCliente},
   {path:'/editarticle/:id', name:'edit', component:EditArticle},
   {path:'/',component:login,  name:'login'},
   {path:'/registro',component:registro,  name:'registro'},

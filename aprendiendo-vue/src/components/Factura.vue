@@ -5,6 +5,10 @@
         <h2 class="subheader">Factura</h2>
         <br />
         <div></div>
+        <div>
+       
+    </div>
+
         <form>
           <h5>Cliente</h5>
           <div id="search" class="sidebar-item">
@@ -16,48 +20,42 @@
             </form>
           </div>
           <br />
-         XHTML
-XHTML
+      
 <template>
-    <div>
-        Número de páginas: {{ numPages }}
-        <pdf :src="src"></pdf>
-    </div>
-</template>
+<table class="table table-striped" id="tablacliente">
+  <thead>
+    <tr>
+      <th scope="col">DNI</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Direccion</th>
+      <th scope="col">telefono</th>
+     <th scope="col">email</th>   
 
-<template>
-    <div>
-        Número de páginas: {{ numPages }}
-        <pdf :src="src"></pdf>
-    </div>
-</template>
-XHTML
-<pdf 
-     v-for="i in numPages"
-     :key="i"
-     :src="src"
-     :page="i"
-     style="display: inline-block; width: 100%"
-></pdf>
+    </tr>
+  </thead>
+  <tbody>
+ 
 
-
-
-          <div class="row">
-            <table class="table col-2">
-              <tbody>
-                <div v-for="clientes in clientes" :key="clientes._id">
-                  <tr>
-                    <th scope="row">{{clientes.dni}}</th>
+                  <tr v-for="clientes in clientes" :key="clientes._id">
+                    <th >{{clientes.dni}}</th>
                     <td>{{clientes.nombre}}</td>
                     <td>{{clientes.apellido}}</td>
                     <td>{{clientes.direccion}}</td>
                     <td>{{clientes.telefono}}</td>
                     <td>{{clientes.email}}</td>
                   </tr>
-                </div>
-              </tbody>
-            </table>
-          </div>
+        
+            
+  
+  </tbody>
+</table>
+  
+        
+</template>
+
+    
+        
         </form>
         <div>
           <b-button v-b-modal.modal-1>+Producto</b-button>
@@ -107,53 +105,75 @@ XHTML
               <h3>Buscador</h3>
               <p>Encuentra el articulo que buscas</p>
               <form @submit.prevent="getArticleBySearch(searchString2)">
-                <input type="text" name="search"  />
+                <input type="text" name="search" />
                 <input type="submit" name="submit" value="Buscar" class="btn" />
                 <b-button variant="outline-primary">Ver Todo</b-button>
               </form>
             </div>
+       
             <div class="article-item">
               <v-subheader>ARTICULOS</v-subheader>
-             
-          
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-   <th scope="col">Eliga el artículos</th>
 
-      <th scope="col">Precio</th>
-      <th scope="col">Cantidad</th>
-      <th scope="col">Precio Total</th>
-    </tr>
-  </thead>
-  <tbody>
- <tr>
-      <td><select @click="calculos()"  id="artf" class="form-control col-9">
- <option  v-for="articles in articles" v-bind:key="articles">{{articles.title}} </option>
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Eliga el artículos</th>
 
-</select></td>
-          
-  <td><div class="col-6">  <input id="precio" type="text" class="form-control" >   </div></td>
- 
-  <td><div class="col-3"> <input id="cantidaddd" type="number"  class="form-control" @click="calculos()" v-model="cant"    ></div></td>
- <td><div class="col-6"> <input id="totalartiulo" class="form-control"></div></td>
-  <td><button @click="añadirlineaventa()" type="button" class="btn btn-info">+</button></td>
-  
-     
-     
-    </tr>
-  </tbody>
-</table>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <select @click="calculos()" id="artf" class="form-control col-9">
+                        <option
+                          v-for="articles in articles"
+                          v-bind:key="articles"
+                        >{{articles.title}}</option>
+                      </select>
+                    </td>
+
+                    <td>
+                      <div class="col-6">
+                        <input id="precio" type="text" class="form-control" />
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="col-3">
+                        <input
+                          id="cantidaddd"
+                          type="number"
+                          class="form-control"
+                          @click="calculos()"
+                          v-model="cant"
+                        />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="col-6">
+                        <input id="totalartiulo" class="form-control" />
+                      </div>
+                    </td>
+                    <td>
+                      <button @click="añadirlineaventa()" type="button" class="btn btn-info">+</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            
           </b-modal>
         </div>
+
+
         <br />
         <br />
         <table class="table mt-9 table-striped" id="tablafactura">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">CODIGO</th>
+           
 
               <th scope="col">NOMBRE ART.</th>
               <th scope="col">PRECIO UNIT.</th>
@@ -164,14 +184,7 @@ XHTML
             </tr>
           </thead>
           <tbody id="lineaf">
-            <tr v-for="checkedName in checkedNames" v-bind:key="checkedName">
-             
-
-            
-
-              
-          
-            </tr>
+            <tr v-for="checkedName in checkedNames" v-bind:key="checkedName"></tr>
           </tbody>
           <tfoot id="lineafooter">
             <td>
@@ -207,57 +220,63 @@ XHTML
       <Sidebar></Sidebar>
     </div>
     <div class="clearfix"></div>
+      <div>
+         <button type="button"  @click="downloadPDF" class="btn btn-dark">Download PDF</button>
+
+       </div>
   </div>
+
 </template>
 
+<script src="js/jquery.min.js"></script>
+
+<!-- jsPDF library -->
+<script src="js/jsPDF/dist/jspdf.min.js"></script>
 <script >
-
-
-
 import Sidebar from "./sidebar.vue";
 import axios from "axios";
 import { global } from "../global";
 import Cliente from "../models/Cliente";
 import Article from "../models/Article";
 import form from "../models/form";
-
+import jsPDF from 'jspdf'
 //import VModal from 'vue-js-modal'
 
 export default {
   name: "Factura",
+  
   components: {
     Sidebar
   },
   mounted() {
-    this.getClientes(), this.getArticulos()
-    
+    this.getClientes(), this.getArticulos();
   },
   data() {
     return {
+       dialog: false,
+     clienteV:null,
+      headers: [
+        {
+          align: "left",
+          filterable: false,
+          value: "name"
+        },
+        { text: "Titulo", value: "title" },
+        { text: "Precio€", value: "precio" },
+        { text: "Cantidad", value: "cantidad" },
 
-    
-        headers: [
-          {
-          
-            align: 'left',
-            filterable: false,
-            value: 'name',
-          },
-          { text: 'Titulo', value: 'title' },
-          { text: 'Precio€', value: 'precio' },
-          { text: 'Cantidad', value: 'cantidad' },
-        
-             { text: 'ADD', value: 'action', sortable: false },
-        ],
+        { text: "ADD", value: "action", sortable: false }
+      ],
       dialogm1: "",
-factura:[],
+      factura: [],
       dialog: false,
       totalarticulo: 0,
-      cant: 0,
-      precio:"",
-    calculo:0,
+      cant: 1,
+      precio: "",
+      calculo: 0,
       checkedNames: [],
-    
+    currentPage: 0,
+            pageCount: 0,
       subtotal: 0,
       iva: 21.0,
       total: 0,
@@ -284,50 +303,72 @@ factura:[],
     };
   },
   methods: {
+     downloadPDF(){
+     
+ var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+    mywindow.document.write('<html><head>');
+	mywindow.document.write('<style>.tabla{width:100%;border-collapse:collapse;margin:16px 0 16px 0;}.tabla th{border:1px solid #ddd;padding:4px;background-color:#d4eefd;text-align:left;font-size:15px;}.tabla td{border:1px solid #ddd;text-align:left;padding:6px;}</style>');
+    mywindow.document.write('</head><body >');
+         mywindow.document.write("<p><img src='https://lh3.googleusercontent.com/wEnbkSzEREsSvWZIFEhiXcLc3CaYMUhGC27OzgmKUMKuxzEgp7QWGzsmNzgk928pLs6H=s85' width='90px' /> </p>");
+ mywindow.document.write(document.getElementById('tablacliente').innerHTML);
+     mywindow.document.write(document.getElementById('tablafactura').innerHTML);
+
+    mywindow.document.write('</body></html>');
+    mywindow.document.close(); // necesario para IE >= 10
+    mywindow.focus(); // necesario para IE >= 10
+    mywindow.print();
+    mywindow.close();
+
+    
+    return true;
+     },
     show() {
       this.$modal.show("hello-world");
       console.log("entraa");
     },
-
-    
-
+	download () { },
     calculos() {
-      console.log(this.cant)
-  var cod = document.getElementById("artf").value;
+      console.log(this.cant);
+      var cod = document.getElementById("artf").value;
 
-console.log(cod);
-this.checkedNames=this.articles;
-var i;
-for(i=0 ; i<this.checkedNames.length; i++){
-if(this.checkedNames[i].title==cod){
- 
-  this.precio=this.checkedNames[i].precio;
-  document.getElementById("precio").value=this.precio
-  this.calculo = parseInt(this.checkedNames[i].precio)*this.cant
+      console.log(cod);
+      this.checkedNames = this.articles;
+      var i;
+      for (i = 0; i < this.checkedNames.length; i++) {
+        if (this.checkedNames[i].title == cod) {
+          this.precio = this.checkedNames[i].precio;
+          document.getElementById("precio").value = this.precio;
+          this.calculo = parseInt(this.checkedNames[i].precio) * this.cant;
 
-document.getElementById("totalartiulo").value=this.calculo
-
-
-}
-}
-
-
-  
+          document.getElementById("totalartiulo").value = this.calculo;
+        }
+      }
     },
+
     añadirlineaventa() {
-        var cod = document.getElementById("artf").value;
-  var fila="<tr><td>"+cod+"</td><td>"+this.precio+"</td><td>"+this.cant+"</td><td>"+this.calculo+"</td><td><button class='btn btn-danger' onclick='eliminarlineadefactura('+${codigo}')'>Eliminar</button></td><td><button class='btn btn-info'>Editar</button></td></tr>";
-   var btn = document.createElement("TR");
-    btn.innerHTML=fila;
-     document.getElementById("lineaf").appendChild(btn);
-   
-   },
+      var cod = document.getElementById("artf").value;
+      var fila =
+        "<tr><td>" +
+        cod +
+        "</td><td>" +
+        this.precio +
+        "</td><td>" +
+        this.cant +
+        "</td><td>" +
+        this.calculo +
+        "</td><td><button type='button' class='close' arial-label='Close' @click='eliminarlineadefactura()'>X</button></td></tr>";
+      var btn = document.createElement("TR");
+      btn.innerHTML = fila;
+      document.getElementById("lineaf").appendChild(btn);
+      this.subtotal+=this.calculo
+      this.total=( this.subtotal/this.iva)+this.subtotal
+    },
     getClientes() {
       axios
         .get(this.url + "clientes")
         .then(res => {
           if (res.data.status == "success") {
-            this.cliente = res.data.clientes;
+            this.clientes = res.data.clientes;
           }
         })
         .catch(err => {

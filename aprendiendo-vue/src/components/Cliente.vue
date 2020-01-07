@@ -6,70 +6,12 @@
         <h2 class="subheader">Clientes</h2>
 
         <br />
-        <form v-on:submit.prevent="save()">
-          <b-container fluid>
-            <b-row class="my-1">
-              <b-col sm="2">
-                <label for="input-none">Nombre:</label>
-              </b-col>
-              <b-col sm="4">
-                <b-form-input id="input-none" :state="null" v-model="clientes.nombre" />
-                <div v-if="submite && !$v.cliente.nombre.required">Este campo es requerido</div>
-                <div v-if="submite && !$v.cliente.nombre.minLength">Este campo Debe tener mas letras</div>
-              </b-col>
-              <b-col sm="2">
-                <label for="input-none">Apellido:</label>
-              </b-col>
-              <b-col sm="4">
-                <b-form-input id="input-none" :state="null" v-model="clientes.apellido" />
-                <div v-if="submite && !$v.cliente.apellidos.required">Este campo es requerido</div>
-                <div
-                  v-if="submite && !$v.cliente.apellidos.minLength"
-                >Este campo Debe tener mas letras</div>
-              </b-col>
+      
+           <router-link to="/createcliente" active-class="active">     <input type="submit" @ value="CREAR CLIENTE" class="btn btn-success" /></router-link>
 
-              <b-col sm="2">
-                <label for="input-none">DNI:</label>
-              </b-col>
-              <b-col sm="4">
-                <b-form-input id="input-none" :state="null" v-model="clientes.dni" />
-              </b-col>
-
-              <b-col sm="2">
-                <label for="input-none">Teléfono:</label>
-              </b-col>
-              <b-col sm="4">
-                <b-form-input id="input-none" :state="null" v-model="clientes.telefono" />
-                <div v-if="submite && !$v.cliente.telefono.minLength">Teléfono no válido</div>
-              </b-col>
-            </b-row>
-
-            <b-row class="my-1">
-              <b-col sm="2">
-                <label for="input-none">Direccion:</label>
-              </b-col>
-              <b-col sm="7">
-                <b-form-input id="input-none" :state="null" v-model="clientes.direccion" />
-              </b-col>
-            </b-row>
-
-            <b-row class="my-1">
-              <b-col sm="2">
-                <label for="input-none">Email:</label>
-              </b-col>
-              <b-col sm="7">
-                <b-form-input id="input-none" :state="null" v-model="clientes.email" />
-                <div v-if="submite && !$v.cliente.apellidos.required">Este campo es requerido</div>
-              </b-col>
-            </b-row>
-          </b-container>
-
-          <div class="clearfix"></div>
-
-          <input type="submit" value="Guardar" class="btn btn-success" />
-        </form>
-        <br />
-        <br />
+     
+       
+    
         <br />
         <br />
         <br />
@@ -98,11 +40,8 @@
                 <td>{{cliente.telefono}}</td>
                 <td>{{cliente.email}}</td>
                 <td>
-                  <a
-                    @click="deleteCliente(cliente._id)"
-                    to="/eliminar"
-                    class="btn btn-danger"
-                  >Eliminar</a>
+                  <router-link :to="{name:'cliente', params:{id: cliente._id}}"><button type="button" class="btn btn-outline-primary">Primary</button></router-link> 
+               
                 </td>
               </tr>
             </tbody>
