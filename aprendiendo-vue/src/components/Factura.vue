@@ -17,6 +17,7 @@
             <form @submit.prevent="getClienteBySearch(searchString)">
               <input type="text" name="search" v-model="searchString" />
               <input type="submit" name="submit" value="Buscar" class="btn" />
+                <b-button variant="outline-primary" @click="getClientes()" >Ver Todo</b-button>
             </form>
           </div>
           <br />
@@ -53,9 +54,6 @@
   
         
 </template>
-
-    
-        
         </form>
         <div>
           <b-button v-b-modal.modal-1>+Producto</b-button>
@@ -63,51 +61,13 @@
           <b-modal id="modal-1" size="xl" title="Articulos">
             <v-card class="mx-auto" max-width="300" tile></v-card>
 
-            <v-row justify="center">
-              <v-dialog v-model="dialog2" scrollable max-width="300px">
-                <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>Select Country</v-card-title>
-                  <v-divider></v-divider>
-                  <v-card-text style="height: 300px;">
-                    <v-radio-group v-model="dialogm1" column>
-                      <v-radio label="Bahamas, The" value="bahamas"></v-radio>
-                      <v-radio label="Bahrain" value="bahrain"></v-radio>
-                      <v-radio label="Bangladesh" value="bangladesh"></v-radio>
-                      <v-radio label="Barbados" value="barbados"></v-radio>
-                      <v-radio label="Belarus" value="belarus"></v-radio>
-                      <v-radio label="Belgium" value="belgium"></v-radio>
-                      <v-radio label="Belize" value="belize"></v-radio>
-                      <v-radio label="Benin" value="benin"></v-radio>
-                      <v-radio label="Bhutan" value="bhutan"></v-radio>
-                      <v-radio label="Bolivia" value="bolivia"></v-radio>
-                      <v-radio label="Bosnia and Herzegovina" value="bosnia"></v-radio>
-                      <v-radio label="Botswana" value="botswana"></v-radio>
-                      <v-radio label="Brazil" value="brazil"></v-radio>
-                      <v-radio label="Brunei" value="brunei"></v-radio>
-                      <v-radio label="Bulgaria" value="bulgaria"></v-radio>
-                      <v-radio label="Burkina Faso" value="burkina"></v-radio>
-                      <v-radio label="Burma" value="burma"></v-radio>
-                      <v-radio label="Burundi" value="burundi"></v-radio>
-                    </v-radio-group>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                    <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-row>
             <div id="search" class="sidebar-item">
               <h3>Buscador</h3>
               <p>Encuentra el articulo que buscas</p>
-              <form @submit.prevent="getArticleBySearch(searchString2)">
-                <input type="text" name="search" />
+              <form @submit.prevent="getArticleBySearch(searchString)">
+                <input type="text" name="search" v-model="searchString" />
                 <input type="submit" name="submit" value="Buscar" class="btn" />
-                <b-button variant="outline-primary">Ver Todo</b-button>
+                <b-button variant="outline-primary" @click="getArticulos()" >Ver Todo</b-button>
               </form>
             </div>
        
@@ -118,8 +78,6 @@
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Eliga el artículos</th>
-
-                    <th scope="col">Precio</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Precio Total</th>
                   </tr>
@@ -127,39 +85,48 @@
                 <tbody>
                   <tr>
                     <td>
-                      <select @click="calculos()" id="artf" class="form-control col-9">
-                        <option
-                          v-for="articles in articles"
-                          v-bind:key="articles"
-                        >{{articles.title}}</option>
-                      </select>
-                    </td>
+                      <article class="article-item" v-for="articles in articles" :key="articles._id">
+      <div class="image-wrap">
+        <img :src="url+'get-image/'+articles.imagen" :alt="articles.title" v-if="articles.imagen" />
+      </div>
 
-                    <td>
+   <h2>  <router-link :to="{name:'article', params:{id: articles._id}}">{{articles.title}}</router-link> </h2>
+      <span class="date">{{articles.date | moment('from', 'now')}}
+
+       
+      </span>
+
+      <h4> {{articles.precio}}€</h4>
+   <router-link :to="{name:'article', params:{id: articles._id}}">Leer más</router-link>
+ <td>
+
+<button   type="button" class="btn btn-info" v-on:click="agregarlineaventa(articles)">+</button>
+                    </td>
+ 
+        <td>
                       <div class="col-6">
-                        <input id="precio" type="text" class="form-control" />
+                       
+                        <p>{{articles.precio}}</p>
                       </div>
                     </td>
 
-                    <td>
+                     <td>
                       <div class="col-3">
                         <input
-                          id="cantidaddd"
-                          type="number"
+                           :id="articles._id"
+                           type="number"
                           class="form-control"
-                          @click="calculos()"
-                          v-model="cant"
+                          @click="calculos(articles.precio, articles._id)"
+                          value="1"
+
                         />
                       </div>
                     </td>
-                    <td>
-                      <div class="col-6">
-                        <input id="totalartiulo" class="form-control" />
-                      </div>
+               </article>
+                  
                     </td>
-                    <td>
-                      <button @click="añadirlineaventa()" type="button" class="btn btn-info">+</button>
-                    </td>
+
+       
                   </tr>
                 </tbody>
               </table>
@@ -184,6 +151,15 @@
             </tr>
           </thead>
           <tbody id="lineaf">
+            <tr v-for="item in lineafactura" v-bind:key="item.nombre">
+
+        <td><input v-model="item.nombre" ></td>
+        <td> <input v-model="item.precio_uni" v-on:change="calculoslineaventa(item)" ></td>
+        <td>  <input type="number" v-model="item.cant" v-on:click="calculoslineaventa(item)" ></td>
+  
+           <td>  <input v-model="item.precio_tota"  ></td>
+      
+              </tr>
             <tr v-for="checkedName in checkedNames" v-bind:key="checkedName"></tr>
           </tbody>
           <tfoot id="lineafooter">
@@ -192,26 +168,34 @@
             </td>
             <td></td>
             <td></td>
-            <td>SUBTOTAL €</td>
+            <td>SUBTOTAL €    <input id="subtotal" type="text" class="form-control col-lg-12" v-model="subtotal" /></td>
             <td>
-              <input id="subtotal" type="text" class="form-control col-5" v-model="subtotal" />
+             
             </td>
             <tr>
               <td></td>
               <td></td>
               <td></td>
-              <td>IVA</td>
+              <td>IVA %   <input  id="iva"
+                          type="number"
+                      class="form-control col-9"
+                         v-model="iva"
+                          @click="calculoiva()"
+                      
+                        /></td>
+              
               <td>
-                <input id="iva" type="text" class="form-control col-5" v-model="iva" />
+                
+           
               </td>
             </tr>
             <tr>
               <td></td>
               <td></td>
               <td></td>
-              <td>TOTAL</td>
+              <td>  TOTAL   <input id="total" type="text" class="form-control col-lg-11 " v-model="total" /></td>
               <td>
-                <input id="total" type="text" class="form-control col-5" v-model="total" />
+             
               </td>
             </tr>
           </tfoot>
@@ -249,10 +233,13 @@ export default {
     Sidebar
   },
   mounted() {
-    this.getClientes(), this.getArticulos();
+    this.getClientes(), this.getArticulos(); 
   },
   data() {
     return {
+      lineafactura:[
+        { nombre:'', precio_uni:'', cant:'', precio_tota:''}
+      ] ,
        dialog: false,
      clienteV:null,
       headers: [
@@ -322,47 +309,27 @@ export default {
     
     return true;
      },
-    show() {
-      this.$modal.show("hello-world");
-      console.log("entraa");
-    },
-	download () { },
-    calculos() {
-      console.log(this.cant);
-      var cod = document.getElementById("artf").value;
+    
 
-      console.log(cod);
-      this.checkedNames = this.articles;
-      var i;
-      for (i = 0; i < this.checkedNames.length; i++) {
-        if (this.checkedNames[i].title == cod) {
-          this.precio = this.checkedNames[i].precio;
-          document.getElementById("precio").value = this.precio;
-          this.calculo = parseInt(this.checkedNames[i].precio) * this.cant;
+    calculoslineaventa(item){
+      
+       item.precio_tota=item.precio_uni*item.cant;
+       for(const i  in this.lineafactura ) {
+         if(this.lineafactura[i].nombre==item.nombre){
+           this.lineafactura[i].precio_tota=item.precio_tota;
+           console.log( this.lineafactura[i].precio_tota+"eenntr");
+          
+         }
 
-          document.getElementById("totalartiulo").value = this.calculo;
-        }
-      }
+}
+    this.calculosubtotal();
+    this.calculoiva();
     },
 
-    añadirlineaventa() {
-      var cod = document.getElementById("artf").value;
-      var fila =
-        "<tr><td>" +
-        cod +
-        "</td><td>" +
-        this.precio +
-        "</td><td>" +
-        this.cant +
-        "</td><td>" +
-        this.calculo +
-        "</td><td><button type='button' class='close' arial-label='Close' @click='eliminarlineadefactura()'>X</button></td></tr>";
-      var btn = document.createElement("TR");
-      btn.innerHTML = fila;
-      document.getElementById("lineaf").appendChild(btn);
-      this.subtotal+=this.calculo
-      this.total=( this.subtotal/this.iva)+this.subtotal
-    },
+calculoiva(){
+this.total=(this.subtotal/this.iva)+this.subtotal
+},
+   
     getClientes() {
       axios
         .get(this.url + "clientes")
@@ -376,6 +343,26 @@ export default {
         });
     },
 
+ agregarlineaventa(articles){
+this.cant=   document.getElementById(articles._id).value;
+
+  this.lineafactura.push({nombre:articles.title,precio_uni: articles.precio , cant:this.cant,precio_tota:articles.precio*this.cant  });
+ this.calculosubtotal();
+ },
+
+calculosubtotal(){
+  console.log("subtotall")
+  var sum=0;
+ this.subtotal=0;
+for(const i  in this.lineafactura ) {
+  console.log(this.lineafactura[i].precio_tota);
+ sum= sum+ parseInt(this.subtotal+this.lineafactura[i].precio_tota);  
+}
+
+
+this.subtotal=sum;
+console.log(this.subtotal)
+},
     getClienteBySearch(searchString) {
       axios
         .get(this.url + "cliente-search/" + searchString)
@@ -390,8 +377,8 @@ export default {
           console.log(err);
         });
     },
-    getArticleBySearch(searchString2) {
-      axios.get(this.url + "search/" + searchString2).then(res => {
+    getArticleBySearch(searchString) {
+      axios.get(this.url + "search/" + searchString).then(res => {
         if (res.data.status == "success") {
           this.articles = res.data.articles;
           console.log(this.articles);
@@ -411,7 +398,8 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+
   }
 };
 </script>

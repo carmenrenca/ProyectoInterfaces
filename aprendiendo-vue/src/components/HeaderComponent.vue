@@ -25,8 +25,10 @@
                           <router-link to="/Factura" active-class="active">Facturas</router-link>
 
                         </li>
-<button v-on:click="cerrarsesion()">cerrar</button>
-                       
+                      
+<button v-on:click="cerrarsesion()">cerrar<i class="far fa-trash-alt"></i></button>
+                       <v-icon x-large blue>{{ icons.mdiAccount }}</v-icon>
+    <div class="mx-2"></div>
                                             
                     </ul>
                 </nav>
@@ -39,7 +41,16 @@
 </template>
 
 <script>
+ import {
+    mdiAccount,
+   
+  } from '@mdi/js'
 export default {
+    data:()=>({
+         icons: {
+        mdiAccount
+      }
+    }),
     name:'HeaderComponent',
      methods:{
          cerrarsesion(){

@@ -3,6 +3,7 @@
     <div id="nav-blog" class="sidebar-item">
       <h3>Puedes hacer esto</h3>
     <router-link to="/createarticle" class="btn btn-success">Crear Articulo</router-link>
+      <router-link to="/crearcategoria" class="btn btn-success">Crear Categoria</router-link>
     </div>
 
     <div id="search" class="sidebar-item">

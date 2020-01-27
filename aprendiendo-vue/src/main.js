@@ -29,6 +29,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import vuetify from './plugins/vuetify';
 import Vuetify from 'vuetify/lib'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+import CreateCategoria from './components/CrearCategory.vue';
 //import hooks from './router/hooks'
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -62,6 +63,8 @@ const  routes=[
   {path:'/editarticle/:id', name:'edit', component:EditArticle},
   {path:'/',component:login,  name:'login'},
   {path:'/registro',component:registro,  name:'registro'},
+  
+  {path:'/crearcategoria',component:CreateCategoria, name:'createcategory' },
   //RUTAS GESTION
 
   {path:'*', component: ErrorComponent}

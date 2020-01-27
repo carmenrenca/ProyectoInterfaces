@@ -27,7 +27,7 @@
           </div>
       
        <a @click="deleteCliente(cliente._id)" to="/eliminar" class="btn btn-danger">Eliminar</a>
-          <input type="submit" value="Guardar" class="btn btn-success" />
+          <input type="submit" value="Guardar" class="btn btn-success" @click="save()" />
         </form>
       </section>
       <Sidebar></Sidebar>
@@ -65,44 +65,36 @@ export default {
     this.getclientes(this.clienteID);
   },
   methods: {
-   save () {
-          
-        return axios({
-          method: 'POST',
-          url: this.url+"signup/",
-         data:this.clientes
-          
-        })
-          .then(response => response.data )
-          .then(data => {
-            
-            console.log(data)
-         if(data.status!="error"){
- localStorage.setItem('token',data.token)
-   swal(
-              "Cliente Creado",
-              "el Cliente se ha creado correctamente :)",
+   save() {
+      var clienteid = this.$route.params.id;
+   
+      axios
+        .put(this.url + "clienteupdate/" + clienteid, this.cliente)
+        .then(res => {
+          if (res.data.status == "success") {
+             swal(
+              "Edición finalizada",
+              "El articulo se ha editado correctamente :)",
               "success"
             );
-            setTimeout(() => {
-              this.$router.push("/Cliente")
-            }, 1500)
-         }else{
+           this.$router.push("/Cliente");
+          } else {
             swal(
-              "Direccion Existente",
-              "Esa direccion ya existe prueba con otra ",
+              "Edición fallida",
+              "El articulo no se ha editado bien :(",
               "error"
             );
-         }
- 
-           
-          
-          }).catch(err=>{
-            console.log(err+"Ese usuario no existe")
-    
-          })
-      },
- 
+          }
+        })
+        .catch(error => {
+          console.log(error+"22");
+             
+        });
+    },
+    fileChange() {
+      this.file = this.$refs.file.files[0];
+      console.log(this.file);
+    },
    getclientes(){
  return axios({
           method: 'GET',

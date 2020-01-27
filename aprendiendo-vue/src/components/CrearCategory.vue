@@ -2,35 +2,13 @@
   <div class="general">
     <div class="center">
       <section id="content">
-        <h1 class="subheader">Crear Articulo</h1>
+        <h1 class="subheader">Crear Categoria</h1>
         <form class="mid-form" v-on:submit.prevent="save()">
           <div class="form-group">
-            <label for="title">Titulo</label>
-            <input type="text" name="title" v-model="article.title" />
+            <label for="title">Nombre de la Categoría</label>
+            <input type="text" name="title" v-model="categori.title" />
           </div>
 
-          <div class="form-group">
-            <label for="precio">Precio</label>
-            <input type="text" name="title" v-model="article.precio" />
-          </div>
-
-         <div class="form-group">
-            <label for="stock">Stock</label>
-            <input type="text" name="stock" v-model="article.stock" />
-          </div>
-           <div class="form-group">
-    <label for="exampleFormControlSelect1">Categoria</label>
-    <select class="form-control" id="exampleFormControlSelect1" v-model="article.categoria" v-on:click.prevent="getCategori()">
-     
-      <option v-for="item of this.categori" :key="item"  >
-        {{item.title}}</option>
-
-    </select>
-  </div>
-          <div class="form-group">
-            <label for="content">Descripcion</label>
-            <textarea name="content" v-model="article.content" />
-          </div>
           <div class="form-group">
            
 
@@ -49,13 +27,14 @@
 
 <script>
 import Sidebar from "./sidebar.vue";
+import Categoria from '../models/Categori'
 import { global } from "../global";
-import Article from "../models/Article";
+
 import axios from "axios";
 import swal from 'sweetalert';
 //import {required, minLength} from 'vuelidate/lib/validators';
 export default {
-  name: "CreateArticle",
+  name: "CreateCategoria",
   components: {
     Sidebar
   },
@@ -63,18 +42,16 @@ export default {
     return {
       file: "",
       url: global.url,
-      article: new Article("", "", null, "", "","",""),
-       categori:[{
-
-       }]
+   
+      categori: new Categoria("","",null)
     };
   },
   mounted() {},
   methods: {
-    save() {
-      console.log(this.article);
+ save() {
+      console.log(this.categori);
       axios
-        .post(this.url + "save", this.article)
+        .post(this.url + "savecategori/", this.categori)
         .then(res => {
           if (res.data.status == "success") {
             if (
@@ -85,17 +62,19 @@ export default {
               //subida del archivo, crep un formulario ficticio para poder guardat mi imagen
               const formData = new FormData();
               formData.append("file0", this.file, this.file.name);
-              var articleId = res.data.article._id;
+                            console.log( res.data.Categoria+"idd");
+
+              var categoriaID = res.data.Categoria._id;
               axios
-                .post(this.url + "upload-image/" + articleId, formData)
+                .post(this.url + "upload-imageCategori/" + categoriaID, formData)
                 .then(res => {
-                  if (res.data.article) {
+                  if (res.data.Categoria) {
                     swal(
-                      "Articulo Creado",
-                      "el articulo se ha creado correctamente :)",
+                      "Categoría Creada",
+                      "La categoría  se ha creado correctamente :)",
                       "success"
                     );
-                    this.article = res.data.article;
+                    this.categori = res.data.Categoria;
                     this.$router.push("/Blog");
                   }
                 })
@@ -104,8 +83,8 @@ export default {
                 });
             } else {
             swal(
-                      "Articulo Creado",
-                      "el articulo se ha creado correctamente :)",
+                      "Categoria Creada",
+                      "La categoria se ha creado correctamente :)",
                       "succes"
                     );
               this.article = res.data.article;
@@ -115,7 +94,7 @@ export default {
           }else{
             swal(
                       "Creación fallida",
-                      "El articulo no se ha creado bien :(",
+                      "La categoria no se ha creado bien :(",
                       "error"
                     );
 
@@ -135,7 +114,7 @@ export default {
         axios.get(this.url+"getcategori/").then(res => {
         if (res.data.status == "success") {
           this.categori = res.data.Categoria;
-          console.log(res.data.Categoria);
+          console.log( res.data.Categoria);
           
         }else{
           console.log(res.data.status)
@@ -144,5 +123,6 @@ export default {
     }
   }
  
-};
+  }
+
 </script>

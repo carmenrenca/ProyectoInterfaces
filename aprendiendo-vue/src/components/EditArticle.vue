@@ -71,7 +71,7 @@ export default {
   methods: {
     save() {
       var articleid = this.$route.params.id;
-    console.log(this.article.data+"%%%%%%%%%%%%%%%%%%%%%%%%%");
+    console.log(this.article.data+"%%%%%%%%%%%%%%%%%");
       axios
         .put(this.url + "article/" + articleid, this.article)
         .then(res => {

@@ -40,7 +40,7 @@
                 <td>{{cliente.telefono}}</td>
                 <td>{{cliente.email}}</td>
                 <td>
-                  <router-link :to="{name:'cliente', params:{id: cliente._id}}"><button type="button" class="btn btn-outline-primary">Primary</button></router-link> 
+                  <router-link :to="{name:'cliente', params:{id: cliente._id}}"><button type="button" class="btn btn-outline-primary">Editar</button></router-link> 
                
                 </td>
               </tr>
