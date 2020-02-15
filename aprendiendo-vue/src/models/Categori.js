@@ -1,11 +1,11 @@
 class Categori{
 
 
-    constructor(title, date , imagen){
+    constructor(title ){
         this.title=title;
       
-        this.date=null;
-        this.imagen=imagen;
+      
+
     
      
     }

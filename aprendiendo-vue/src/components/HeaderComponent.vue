@@ -10,32 +10,41 @@
                 </div>
                 
                 <!-- MENU -->
-                <nav id="menu">
-                    <ul>
-                        <li>
-                        <router-link to="/home" active-class="active">Inicio</router-link>
+                <nav id="menu" class="col-12">
+                    <ul >
+                      
+                        <li >
+                        <router-link to="/home">Inicio</router-link>
+                      
+                        </li>
+                         <li >
+                        <router-link to="/pefil">Mi Perfil</router-link>
+                      
                         </li>
                         <li>
-                            <router-link to="/Blog" active-class="active">Articulos</router-link>
+                            <router-link to="/Blog" >Articulos</router-link>
                         </li>
-                        <li>
-                       <router-link to="/Cliente" active-class="active">Clientes</router-link>
+                        <li v-show="this.rol=='Administrador'">
+                       <router-link to="/Cliente">Clientes</router-link>
                         </li>
-                        <li>
-                          <router-link to="/Factura" active-class="active">Facturas</router-link>
+                     
+                            <li v-show="this.rol=='Administrador'">
+                          <router-link to="/Factura" >Facturas</router-link>
 
                         </li>
+                     
+                         
+                   <li> <button v-on:click="cerrarsesion()">Cerrar<i class="far fa-trash-alt"></i></button>
                       
-<button v-on:click="cerrarsesion()">cerrar<i class="far fa-trash-alt"></i></button>
-                       <v-icon x-large blue>{{ icons.mdiAccount }}</v-icon>
-    <div class="mx-2"></div>
-                                            
+                       </li>   
+                                  
                     </ul>
                 </nav>
-
+ 
+  </div>
                 <!--LIMPIAR FLOTADOS-->
                 <div class="clearfix"></div>
-            </div>
+
         </header>
 
 </template>
@@ -48,19 +57,32 @@
 export default {
     data:()=>({
          icons: {
-        mdiAccount
-      }
+        mdiAccount,
+     
+      }, rol:""
     }),
+    mounted(){
+     this.verificarol();
+
+    },
     name:'HeaderComponent',
      methods:{
          cerrarsesion(){
-             localStorage.removeItem('token')
-             
+          localStorage.removeItem('usertoken');      
             
             setTimeout(() => {
               this.$router.push("/")
             }, 1500)
-         }
+            
+         },
+     verificarol(){
+     
+        this.rol= localStorage.getItem('rol');
+     console.log(this.rol+"%%%%%%%%%%%%%%")
+            
+            
+                }
+
      }
 }
 </script>

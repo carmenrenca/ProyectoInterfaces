@@ -5,25 +5,24 @@
         <br />
         <h2 class="subheader">Clientes</h2>
 
-        <br />
-      
-           <router-link to="/createcliente" active-class="active">     <input type="submit" @ value="CREAR CLIENTE" class="btn btn-success" /></router-link>
-
-     
-       
-    
-        <br />
-        <br />
-        <br />
-        <br />
-
-        <div class="article-item">
+        <div id="search" class="sidebar-item">
+          <h3>Buscador</h3>
+          <p>Encuentra el cliente que buscas</p>
+          <form @submit.prevent="getClienteBySearch(searchString)">
+            <input type="text" name="search" v-model="searchString" />
+            <input type="submit" name="submit" value="Buscar" class="btn" />
+            <b-button variant="outline-primary" @click="getClientes()">Ver Todo</b-button>
+          </form>
+        </div>
+        <div class="col-md-8"></div>
+        <div class="table-responsive">
           <table class="table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">DNI</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
+                <th scope="col">Rol</th>
                 <th scope="col">Direccion</th>
                 <th scope="col">Teléfono</th>
                 <th scope="col">Email</th>
@@ -36,19 +35,24 @@
                 <th scope="row">{{cliente.dni}}</th>
                 <td>{{cliente.nombre}}</td>
                 <td>{{cliente.apellido}}</td>
+                <td>{{cliente.rol}}</td>
                 <td>{{cliente.direccion}}</td>
                 <td>{{cliente.telefono}}</td>
                 <td>{{cliente.email}}</td>
                 <td>
-                  <router-link :to="{name:'cliente', params:{id: cliente._id}}"><button type="button" class="btn btn-outline-primary">Editar</button></router-link> 
-               
+                  <router-link :to="{name:'cliente', params:{id: cliente._id}}">
+                    <button type="button" class="btn btn-outline-primary">Editar</button>
+                  </router-link>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-outline-danger"
+                    @click="deleteCliente(cliente._id)"
+                  >Eliminar</button>
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <div>
-          <b-table striped hover :clientesList="clientesList" :cliente="cliente"></b-table>
         </div>
       </section>
       <Sidebar></Sidebar>
@@ -64,7 +68,7 @@ import { global } from "../global";
 import Sidebar from "./sidebar.vue";
 import swal from "sweetalert";
 import Cliente from "../models/Cliente.js";
- 
+
 export default {
   name: "Cliente",
 
@@ -91,18 +95,18 @@ export default {
   },
   data() {
     return {
-    myHeaders: new Headers(),
-     
+      myHeaders: new Headers(),
+
       url: global.url,
       submite: false,
       cliente: new Cliente("", "", "", 0, "", "", ""),
-       clientes: new Cliente("", "", "", 0, "", "", ""),
+      clientes: new Cliente("", "", "", 0, "", "", ""),
       clientesList: []
     };
   },
   mounted() {
-     this.myHeaders.append('authorization', `Bearer ${localStorage.token}`),
-    this.GETCLIENTES();
+    this.myHeaders.append("authorization", `Bearer ${localStorage.token}`),
+      this.GETCLIENTES();
   },
   methods: {
     mostrarusuario() {
@@ -116,14 +120,38 @@ export default {
 
       alert("Validacion Pasada");
     },
+    getClienteBySearch(searchString) {
+      axios
+        .get(this.url + "cliente-search/" + searchString)
+        .then(res => {
+          if (res.data.status == "success") {
+            this.cliente = res.data.clientes;
 
+            console.log(searchString);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getClientes() {
+      axios
+        .get(this.url + "clientes")
+        .then(res => {
+          if (res.data.status == "success") {
+            this.cliente = res.data.clientes;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     save() {
       console.log(this.url);
-        console.log(this.clientes);
+      console.log(this.clientes);
       axios
         .post(this.url + "cliente/save", this.clientes)
         .then(res => {
-        
           if (res.data.status == "success") {
             swal(
               "Cliente Creado",
@@ -146,14 +174,14 @@ export default {
         });
     },
 
-  GETCLIENTES(){
- return axios({
-          method: 'GET',
-          url: this.url+"clientes/",
-          headers: this.myHeaders,
-          
-        }).then(res => {
-          console.log(res)
+    GETCLIENTES() {
+      return axios({
+        method: "GET",
+        url: this.url + "clientes/",
+        headers: this.myHeaders
+      })
+        .then(res => {
+          console.log(res);
           if (res.data.status == "success") {
             this.cliente = res.data.clientes;
             this.clientesList.push(res.data.clientes);
@@ -163,20 +191,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-  },
-
-
-
+    },
 
     deleteCliente(clienteId) {
       axios.delete(this.url + "clientes-delete/" + clienteId).then(res => {
         console.log(res);
-        swal(
-          "Cliente Eliminado",
-          "El Cliente se ha borrado correctamente",
-          "success"
-        );
-        this.$router.push("/Cliente");
+        this.GETCLIENTES();
       });
     }
   }

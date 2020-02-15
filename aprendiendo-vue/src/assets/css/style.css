@@ -340,6 +340,10 @@ body {
     float: right;
   }
   
+  .stock-color{
+      color:red;
+      text-align:right;
+  }
   /*
    * The following styles are auto-applied to elements with
    * transition="modal" when their visibility is toggled
@@ -724,3 +728,5 @@ textarea{
   from {opacity: .4}
   to {opacity: 1}
 }
+
+

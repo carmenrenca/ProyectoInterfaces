@@ -23,7 +23,7 @@
           <br />
       
 <template>
-<table class="table table-striped" id="tablacliente">
+<table class="table table-striped table-responsive " id="tablacliente">
   <thead>
     <tr>
       <th scope="col">DNI</th>
@@ -39,12 +39,12 @@
  
 
                   <tr v-for="clientes in clientes" :key="clientes._id">
-                    <th >{{clientes.dni}}</th>
-                    <td>{{clientes.nombre}}</td>
-                    <td>{{clientes.apellido}}</td>
-                    <td>{{clientes.direccion}}</td>
-                    <td>{{clientes.telefono}}</td>
-                    <td>{{clientes.email}}</td>
+                    <th id="cdni" >{{clientes.dni}}</th>
+                    <td id="cname">{{clientes.nombre}}</td>
+                    <td id="capellido">{{clientes.apellido}}</td>
+                    <td id="cdireccion">{{clientes.direccion}}</td>
+                    <td id="ctelefono">{{clientes.telefono}}</td>
+                    <td id="cemail">{{clientes.email}}</td>
                   </tr>
         
             
@@ -78,8 +78,7 @@
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Eliga el artículos</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Precio Total</th>
+                 
                   </tr>
                 </thead>
                 <tbody>
@@ -104,10 +103,6 @@
                     </td>
  
         <td>
-                      <div class="col-6">
-                       
-                        <p>{{articles.precio}}</p>
-                      </div>
                     </td>
 
                      <td>
@@ -137,7 +132,11 @@
 
         <br />
         <br />
-        <table class="table mt-9 table-striped" id="tablafactura">
+       
+      </section>
+
+       <div class="table-responsive ">
+            <table class="table table-striped col-lg-12 " id="tablafactura">
           <thead class="thead-dark">
             <tr>
            
@@ -157,25 +156,24 @@
         <td> <input v-model="item.precio_uni" v-on:change="calculoslineaventa(item)" ></td>
         <td>  <input type="number" v-model="item.cant" v-on:click="calculoslineaventa(item)" ></td>
   
-           <td>  <input v-model="item.precio_tota"  ></td>
+           <td>  <input v-model="item.precio_tota"></td>
       
               </tr>
             <tr v-for="checkedName in checkedNames" v-bind:key="checkedName"></tr>
           </tbody>
           <tfoot id="lineafooter">
-            <td>
-              <v-list-item-title>{{precioS}}</v-list-item-title>
-            </td>
+          
             <td></td>
+                  <td></td>
             <td></td>
-            <td>SUBTOTAL €    <input id="subtotal" type="text" class="form-control col-lg-12" v-model="subtotal" /></td>
+            <td>SUBTOTAL € <input id="subtotal" type="text" class="form-control col-lg-12" v-model="subtotal" /></td>
             <td>
              
             </td>
             <tr>
               <td></td>
               <td></td>
-              <td></td>
+                   <td></td>
               <td>IVA %   <input  id="iva"
                           type="number"
                       class="form-control col-9"
@@ -183,11 +181,7 @@
                           @click="calculoiva()"
                       
                         /></td>
-              
-              <td>
-                
-           
-              </td>
+             <td></td>
             </tr>
             <tr>
               <td></td>
@@ -200,12 +194,14 @@
             </tr>
           </tfoot>
         </table>
-      </section>
+       
+         </div>
+    
       <Sidebar></Sidebar>
     </div>
     <div class="clearfix"></div>
       <div>
-         <button type="button"  @click="downloadPDF" class="btn btn-dark">Download PDF</button>
+         <button type="button"  @click="descargarPDF" class="btn btn-dark">Download PDF</button>
 
        </div>
   </div>
@@ -213,7 +209,8 @@
 </template>
 
 <script src="js/jquery.min.js"></script>
-
+<script src="jspdf.min.js"></script>
+<script src="jspdf.plugin.autotable.min.js"></script>
 <!-- jsPDF library -->
 <script src="js/jsPDF/dist/jspdf.min.js"></script>
 <script >
@@ -223,18 +220,22 @@ import { global } from "../global";
 import Cliente from "../models/Cliente";
 import Article from "../models/Article";
 import form from "../models/form";
+
 import jsPDF from 'jspdf'
+import JsPDFAutotable from 'jspdf-autotable' ;
 //import VModal from 'vue-js-modal'
 
 export default {
   name: "Factura",
-  
+
+ 
+
   components: {
     Sidebar
   },
   mounted() {
     this.getClientes(), this.getArticulos(); 
-  },
+  },components: { JsPDFAutotable },
   data() {
     return {
       lineafactura:[
@@ -290,26 +291,67 @@ export default {
     };
   },
   methods: {
-     downloadPDF(){
      
- var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-    mywindow.document.write('<html><head>');
-	mywindow.document.write('<style>.tabla{width:100%;border-collapse:collapse;margin:16px 0 16px 0;}.tabla th{border:1px solid #ddd;padding:4px;background-color:#d4eefd;text-align:left;font-size:15px;}.tabla td{border:1px solid #ddd;text-align:left;padding:6px;}</style>');
-    mywindow.document.write('</head><body >');
-         mywindow.document.write("<p><img src='https://lh3.googleusercontent.com/wEnbkSzEREsSvWZIFEhiXcLc3CaYMUhGC27OzgmKUMKuxzEgp7QWGzsmNzgk928pLs6H=s85' width='90px' /> </p>");
- mywindow.document.write(document.getElementById('tablacliente').innerHTML);
-     mywindow.document.write(document.getElementById('tablafactura').innerHTML);
-
-    mywindow.document.write('</body></html>');
-    mywindow.document.close(); // necesario para IE >= 10
-    mywindow.focus(); // necesario para IE >= 10
-    mywindow.print();
-    mywindow.close();
-
     
-    return true;
-     },
-    
+    descargarPDF(){
+
+    var hoy=new Date();
+    var fecha= hoy.getDate()+' '+(hoy.getMonth()+1)+' '+hoy.getFullYear();
+    var hora=hoy.getHours()+' '+hoy.getMinutes()+' '+hoy.getSeconds();
+    var fechahora=fecha+' '+hora;
+
+var doc = new jsPDF();
+      var logo = new Image();
+
+
+//doc.addImage(imgData, 'JPEG', 15, 40, 180, 160)
+var columns = ["NOMBRE ART", "PRECIO UNI", "CANT","PRECIO TOTAL"];
+var rows = [];
+
+ this.lineafactura.forEach(element =>{
+      var temp = [element.nombre,element.precio_uni,element.cant,element.precio_tota];
+      rows.push(temp);
+    }); 
+
+    var temp01 = [" "," "," ","Subtotal: "+this.subtotal];
+        rows.push(temp01);
+          var temp02 = [" "," "," ","IVA : "+this.iva];
+        rows.push(temp02);
+          var temp03 = [" "," "," ","Total : "+this.total];
+        rows.push(temp03);
+var doc = new jsPDF('p', 'pt');
+
+doc.autoTable(columns, rows);
+
+doc.text(20, 20, 'CLIENTE');
+
+ 
+var columns2 = ["DNI", "Nombre", "Apellido","Direccion","telefono","email"];
+var rows2 = [];       
+var dni=document.getElementById("cdni").innerHTML;
+var cnombre=document.getElementById("cname").innerHTML;
+var capellido=document.getElementById("capellido").innerHTML;
+var cdireccion=document.getElementById("cdireccion").innerHTML;
+var ctelefono=document.getElementById("ctelefono").innerHTML;
+var cemail=document.getElementById("cemail").innerHTML;
+      var temp2 = [dni,cnombre,capellido,cdireccion,ctelefono,cemail];
+      
+      rows2.push(temp2);
+   
+ // doc.autoTable(col, rows, { startY: 120 })
+   
+var doc = new jsPDF('p', 'pt');
+
+doc.autoTable(columns, rows);
+
+doc.text(20, 20, 'FACURA                                           ');
+
+doc.autoTable(columns2, rows2);
+doc.save('table.pdf');
+  
+
+  
+},
 
     calculoslineaventa(item){
       
@@ -327,7 +369,9 @@ export default {
     },
 
 calculoiva(){
-this.total=(this.subtotal/this.iva)+this.subtotal
+this.total=(this.subtotal/this.iva)+this.subtotal;
+this.total=Math.trunc(this.total);  
+console.log(this.total+"totla");
 },
    
     getClientes() {
@@ -344,7 +388,7 @@ this.total=(this.subtotal/this.iva)+this.subtotal
     },
 
  agregarlineaventa(articles){
-this.cant=   document.getElementById(articles._id).value;
+this.cant=document.getElementById(articles._id).value;
 
   this.lineafactura.push({nombre:articles.title,precio_uni: articles.precio , cant:this.cant,precio_tota:articles.precio*this.cant  });
  this.calculosubtotal();
@@ -357,10 +401,14 @@ calculosubtotal(){
 for(const i  in this.lineafactura ) {
   console.log(this.lineafactura[i].precio_tota);
  sum= sum+ parseInt(this.subtotal+this.lineafactura[i].precio_tota);  
+
 }
 
 
 this.subtotal=sum;
+var aux=this.subtotal/this.iva;
+this.total=  aux+this.subtotal;
+this.total=Math.trunc(this.total);  
 console.log(this.subtotal)
 },
     getClienteBySearch(searchString) {

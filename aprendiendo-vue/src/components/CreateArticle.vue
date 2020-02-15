@@ -72,7 +72,7 @@ export default {
   mounted() {},
   methods: {
     save() {
-      console.log(this.article);
+      console.log(this.article.stock);
       axios
         .post(this.url + "save", this.article)
         .then(res => {

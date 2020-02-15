@@ -30,6 +30,8 @@ import vuetify from './plugins/vuetify';
 import Vuetify from 'vuetify/lib'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import CreateCategoria from './components/CrearCategory.vue';
+import SearchCategori from './components/searchcategori.vue';
+import perfil from './components/perfil.vue';
 //import hooks from './router/hooks'
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -53,16 +55,18 @@ const  routes=[
   {path:'/articulo/:id', name:'article', component: Article},
   {path:'/cliente/:id', name:'cliente', component: ClienteGes},
   {path:'/Pagina1', component:Pagina},
-  {path:'/Cliente', component:Cliente},
+  {path:'/Cliente', component:Cliente, name:'Cliente'},
   {path:'/Articulos', name:'Articulos', component:Articulos},
   {path:'/redirect/:searchString',  component:Redirect},
   {path:'/buscador/:searchString', component:Search},
+  {path:'/categoria/:searchString', component:SearchCategori},
   {path:'/Factura', name:'Factura', component:Factura},
   {path:'/createarticle', name:'create', component:CreateArticle},
   {path:'/createcliente', name:'createcliente', component:CreateCliente},
   {path:'/editarticle/:id', name:'edit', component:EditArticle},
   {path:'/',component:login,  name:'login'},
   {path:'/registro',component:registro,  name:'registro'},
+  {path:'/pefil', component:perfil, name:'perfil'},
   
   {path:'/crearcategoria',component:CreateCategoria, name:'createcategory' },
   //RUTAS GESTION
@@ -72,6 +76,7 @@ const  routes=[
 ]
 //hooks(this.routes)
 const router = new VueRouter({
+
   routes,
   mode: 'history'
 });

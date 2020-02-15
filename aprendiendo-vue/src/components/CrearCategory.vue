@@ -9,16 +9,35 @@
             <input type="text" name="title" v-model="categori.title" />
           </div>
 
-          <div class="form-group">
-           
-
-            <label for="imagen">Imagen</label>
-            <input type="file" id="file" ref="file" name="file0" @change="fileChange()" />
-          </div>
 
           <input type="submit" value="Guardar" class="btn btn-success" />
         </form>
+ <div class="modal-body">
+
+   </div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Nombre Categoría</th>
+      <th scope="col">Nº Productos</th>
+      <th scope="col">Eliminar</th>
+  
+    </tr>
+  </thead>
+  <tbody>
+    <tr  v-for="item in this.categorialist" :key="item">
+    
+      <td>{{item.title}}</td>
+      <td></td>
+      <td>  <button class="btn btn-danger"  @click="deleteCategori(item._id)">Eliminar</button></td>
+    </tr>
+   
+  </tbody>
+</table>
+
+
       </section>
+
       <Sidebar></Sidebar>
     </div>
     <div class="clearfix"></div>
@@ -42,56 +61,24 @@ export default {
     return {
       file: "",
       url: global.url,
-   
-      categori: new Categoria("","",null)
+        categorialist:[],
+      categori: new Categoria("",null)
     };
   },
-  mounted() {},
+  mounted() {this.getCategori()},
   methods: {
  save() {
       console.log(this.categori);
       axios
-        .post(this.url + "savecategori/", this.categori)
+        .post(this.url + "savecategori", this.categori)
         .then(res => {
           if (res.data.status == "success") {
-            if (
-              this.file != null &&
-              this.file != undefined &&
-              this.file != ""
-            ) {
-              //subida del archivo, crep un formulario ficticio para poder guardat mi imagen
-              const formData = new FormData();
-              formData.append("file0", this.file, this.file.name);
-                            console.log( res.data.Categoria+"idd");
-
-              var categoriaID = res.data.Categoria._id;
-              axios
-                .post(this.url + "upload-imageCategori/" + categoriaID, formData)
-                .then(res => {
-                  if (res.data.Categoria) {
-                    swal(
-                      "Categoría Creada",
-                      "La categoría  se ha creado correctamente :)",
-                      "success"
-                    );
-                    this.categori = res.data.Categoria;
-                    this.$router.push("/Blog");
-                  }
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            } else {
-            swal(
-                      "Categoria Creada",
-                      "La categoria se ha creado correctamente :)",
-                      "succes"
-                    );
-              this.article = res.data.article;
-              this.$router.push("/Blog");
-            }
-            console.log(res.data);
-          }else{
+           
+          
+              this.article = res.data.categoria;
+           
+           this.getCategori();
+            }else{
             swal(
                       "Creación fallida",
                       "La categoria no se ha creado bien :(",
@@ -105,22 +92,27 @@ export default {
           console.log(error);
         });
     },
-    fileChange() {
-      this.file = this.$refs.file.files[0];
-      console.log(this.file);
-    },
+ 
         getCategori(){
  console.log("ennntraa")
         axios.get(this.url+"getcategori/").then(res => {
         if (res.data.status == "success") {
-          this.categori = res.data.Categoria;
-          console.log( res.data.Categoria);
+          this.categorialist = res.data.Categoria;
+          console.log( this.categorialist);
           
         }else{
           console.log(res.data.status)
         }
       });
-    }
+    },
+
+     deleteCategori(categorId){
+         axios.delete(this.url+'categori/'+categorId).then(res=>{
+           console.log(res);
+           
+     this.getCategori();
+         });
+        }
   }
  
   }

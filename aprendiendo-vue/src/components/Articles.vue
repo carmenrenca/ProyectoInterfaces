@@ -8,7 +8,7 @@
    <h2>  <router-link :to="{name:'article', params:{id: articles._id}}">{{articles.title}}</router-link> </h2>
       <span class="date">{{articles.date | moment('from', 'now')}}</span>
    <router-link :to="{name:'article', params:{id: articles._id}}">Leer más</router-link>
-
+      <h5>{{articles.precio}}€</h5>
       <div class="clearfix"></div>
     </article>
   </div>

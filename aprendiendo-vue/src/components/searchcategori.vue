@@ -3,7 +3,7 @@
     <Slider texto="Busquedad"></Slider>
     <div class="center">
   <section id="content">
-  <div class="subheader" v-if="articles"> <h1>Articulos encontrados</h1>   </div>     
+  <div class="subheader" v-if="articles"> <h1>{{this.searchString}}</h1>   </div>     
    <div class="subheader" v-else> <h1>Sin resultados</h1>   </div>     
     <div id="articles" v-if="articles">
                <Articles :articles="articles"></Articles>       
@@ -30,35 +30,44 @@ import {global} from '../global';
 import Articles from './Articles';
 
 export default {
-  name: "Search",
+  name: "SearchCategori",
   components:{
    Articles,
      Slider,
     Sidebar,
  
   },
+  
   mounted() {
-    
-      var searchString= this.$route.params.searchString;
-    this.getArticleBySearch(searchString);
+      this.searchString=this.$route.params.searchString
+      //var searchString= this.$route.params.searchString;
+    this.getArticleBySearch(this.searchString);
   },
   data() {
    
     return {
        url: global.url,
-      articles: []
+      articles: [],
+          searchString:this.$route.params.searchString
     };
   },
   methods: {
     getArticleBySearch(searchString) {
-      axios.get(this.url+"search/"+searchString).then(res => {
+        console.log("eeeennnnntraa search")
+      axios.get(this.url+"searchCategori/"+searchString).then(res => {
         if (res.data.status == "success") {
           this.articles = res.data.articles;
           console.log(this.articles);
         }
-      });
       
-    }
+      });
+        this.searchString=""; 
+        console.log("salimoss") 
+                  this.$router.replace('/categoria/'+searchString);
+               
+
+ 
+    } 
   }
 };
 </script>

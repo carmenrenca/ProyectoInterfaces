@@ -1,7 +1,7 @@
 class Article{
 
 
-    constructor(title, content, date , imagen, precio,cantidad,categoria){
+    constructor(title, content, date , imagen, precio,cantidad,categoria, stock){
         this.title=title;
         this.content=content;
         this.date=null;
@@ -9,6 +9,7 @@ class Article{
         this.precio=precio;
         this.cantidad=cantidad;
         this.categoria=categoria
+        this.stock=stock;
     }
 /**title: String,
 content: String,

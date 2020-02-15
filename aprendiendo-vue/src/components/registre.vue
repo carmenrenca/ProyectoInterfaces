@@ -51,7 +51,14 @@
                     :state="null"
                     v-model="clientes.dni"
                   />
-
+                    <v-text-field
+                    label="Rol"
+                    name="Rol"
+                    prepend-icon="person"
+                    type="text"
+                    :state="null"
+                    v-model="clientes.rol"
+                  />
                   <v-text-field
                     label="Login"
                     name="login"
@@ -70,6 +77,7 @@
                     :state="null"
                     v-model="clientes.password"
                   />
+                  
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -90,6 +98,7 @@
 import axios from "axios";
 import { global } from "../global";
 import swal from "sweetalert";
+
 import Cliente from "../models/Cliente.js";
 export default {
   data() {
@@ -97,51 +106,51 @@ export default {
       url: global.url,
       user: null,
        body:null,
-      cliente: new Cliente("", "", "", 0, "", "", ""),
-      clientes: new Cliente("", "", "", 0, "", "", "")
+      cliente: new Cliente("", "", "", 0, "", "", "",""),
+      clientes: new Cliente("", "", "", 0, "", "", "",""),
+        nombre: '',
+      apellido: '',
+      email: '',
+      password: '',
+    
     };
   },
   props: {
     source: String
   },
+
   methods: {
      registro () {
-          
-        return axios({
-          method: 'POST',
-          url: this.url+"signup/",
-         data:this.clientes
-          
-        })
-          .then(response => response.data )
-          .then(data => {
-            
-            console.log(data)
-         if(data.status!="error"){
- localStorage.setItem('token',data.token)
-   swal(
+ 
+      axios.post('http://localhost:5000/users/register', {
+        nombre: this.clientes.nombre,
+        apellido: this.clientes.apellido,
+        email: this.clientes.email,
+        password: this.clientes.password,
+        dni: this.clientes.dni,
+        telefono: this.clientes.telefono,
+        direccion: this.clientes.direccion,
+        rol: this.clientes.rol
+      }).then(res=>{
+        res.data;
+       swal(
               "Cliente Creado",
               "el Cliente se ha creado correctamente :)",
               "success"
             );
-            setTimeout(() => {
-              this.$router.push("/LastArticle")
-            }, 1500)
-         }else{
-            swal(
+            this.$router.push("/LastArticle")
+
+
+      }).catch(err => {
+        console.log(err)
+         swal(
               "Direccion Existente",
               "Esa direccion ya existe prueba con otra ",
               "error"
             );
-         }
- 
-           
-          
-          }).catch(err=>{
-            console.log(err+"Ese usuario no existe")
-    
-          })
-      },
+      })
+    }
   }
+  
 };
 </script>

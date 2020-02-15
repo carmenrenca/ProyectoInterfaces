@@ -18,6 +18,16 @@
             <input type="text" name="stock" v-model="article.stock" />
           </div>
 
+           <div class="form-group">
+           <select class="form-control" id="exampleFormControlSelect1" v-model="article.categoria" v-on:click.prevent="getCategori()">
+      <option selected="true" disabled="disabled">{{article.categoria}}</option>
+      <option v-for="item of this.categori" :key="item"   >
+        
+        {{item.title}}</option>
+
+    </select>
+          </div>
+
           <div class="form-group">
             <label for="content">Descripcion</label>
             <textarea name="content" v-model="article.content" />
@@ -59,14 +69,18 @@ export default {
     return {
       file: "",
       url: global.url,
-      article: new Article("", "", null, "", "",""),
-      isEdit: true
+      article: new Article("", "", null, "", "","",""),
+      isEdit: true,
+         categori:[{
+
+       }]
     };
   },
   mounted() {
     var articleID = this.$route.params.id;
     console.log(articleID);
     this.getArticle(articleID);
+ 
   },
   methods: {
     save() {
@@ -136,6 +150,18 @@ export default {
       axios.get(this.url + "article/" + articleId).then(res => {
         if (res.data.status == "success") {
           this.article = res.data.article;
+        }
+      });
+    },
+         getCategori(){
+
+        axios.get(this.url+"getcategori/").then(res => {
+        if (res.data.status == "success") {
+          this.categori = res.data.Categoria;
+          console.log(res.data.Categoria);
+          
+        }else{
+          console.log(res.data.status)
         }
       });
     }
