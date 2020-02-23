@@ -17,6 +17,10 @@
             <label for="stock">Direccion</label>
             <input type="text" name="stock" v-model="cliente.direccion" />
           </div>
+             <div class="form-group">
+            <label for="stock">Rol</label>
+            <input type="text" name="stock" v-model="cliente.rol" />
+          </div>
      <div class="form-group">
             <label for="stock">Telefono</label>
             <input type="text" name="stock" v-model="cliente.telefono" />
@@ -25,9 +29,12 @@
             <label for="stock">DNI</label>
             <input type="text" name="stock" v-model="cliente.dni" />
           </div>
-      
-       <a @click="deleteCliente(cliente._id)" to="/eliminar" class="btn btn-danger">Eliminar</a>
+      <div class="row">
+             <a @click="deleteCliente(cliente._id)" to="/eliminar" class="btn btn-danger">Eliminar</a>
+      <div class="col-md-1"></div>
           <input type="submit" value="Guardar" class="btn btn-success" @click="save()" />
+      </div>
+  
         </form>
       </section>
       <Sidebar></Sidebar>
@@ -53,8 +60,8 @@ export default {
       clienteID:'',
       file: "",
       url: global.url,
-      cliente: new Cliente("", "", "", 0, "", "", ""),
-       clientes: new Cliente("", "", "", 0, "", "", ""),
+      cliente: new Cliente("", "", "", 0, "", "", "",""),
+       clientes: new Cliente("", "", "", 0, "", "", "",""),
     
       isEdit: true
     };
@@ -74,14 +81,14 @@ export default {
           if (res.data.status == "success") {
              swal(
               "Edición finalizada",
-              "El articulo se ha editado correctamente :)",
+              "El cliente se ha modificado correctamente :)",
               "success"
             );
            this.$router.push("/Cliente");
           } else {
             swal(
               "Edición fallida",
-              "El articulo no se ha editado bien :(",
+              "El elcliente no se ha modificado :(",
               "error"
             );
           }

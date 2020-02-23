@@ -25,9 +25,53 @@
   </section>
     <Sidebar></Sidebar>
     </div>
-    <div class="clearfix">
-      
+    <div class="clearfix col-md-1">
+     
     </div>
+    <h3 class="subheader">Nuestras Mejores Marcas</h3>
+       <section >
+         <div class="row">
+<div class="card " style="width: 13rem;">
+  <div class="card-body">
+    <img class="card-img-top" src="../assets/social.png" alt="Card image cap">
+
+  </div>
+</div>  
+
+   <div class="card " style="width: 13rem;">
+  <div class="card-body">
+    <img class="card-img-top" src="../assets/yamaha.jpg" alt="Card image cap">
+
+  </div>
+</div>
+
+
+
+
+   <div class="card " style="width: 13rem;">
+  <div class="card-body">
+    <img class="card-img-top" src="../assets/taylor.jpg" alt="Card image cap">
+
+  </div>
+</div>
+
+ <div class="card " style="width: 13rem;">
+  <div class="card-body">
+    <img class="card-img-top" src="../assets/sony.jpg" alt="Card image cap">
+
+  </div>
+</div>
+
+ <div class="card " style="width: 13rem;">
+  <div class="card-body">
+    <img class="card-img-top" src="../assets/aguilar.jpg" alt="Card image cap">
+
+  </div>
+</div>
+         </div>
+    
+    
+  </section>
   </div>
 </template>
 

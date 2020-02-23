@@ -3,11 +3,10 @@
 </template>
 <script>
 export default {
-    name:"Redirect", 
+    name:"RedirectCategori", 
     mounted(){
         var searchString = this.$route.params.searchString;
-        console.log("llega "+searchString)
-        this.$router.push('/buscador/'+searchString);
+        this.$router.push('/categoria/'+searchString);
     }
 }
 </script>

@@ -6,6 +6,10 @@
    <router-link to="/createcliente" class="btn btn-success">Crear Cliente</router-link>
       <router-link to="/crearcategoria" class="btn btn-success">Edit Categoria</router-link>
         </div>
+        <div class="clearfix" v-else-if="route=='TablonEventos' || route=='evento' "  >
+   <router-link to="/CreateEvento" class="btn btn-success">Nuevo Evento</router-link>
+        </div>
+     
         <div v-else>
   <router-link to="/createarticle" class="btn btn-success">Crear Articulo</router-link>
       <router-link to="/crearcategoria" class="btn btn-success">Edit Categoria</router-link>
@@ -13,7 +17,7 @@
   
     </div>
 
-    <div id="search" class="sidebar-item">
+    <div id="search" class="sidebar-item" v-show="route!='evento' && route!='TablonEventos'">
       <h3>Buscador</h3>
       <p>Encuentra el artículo que buscas</p>
       <form @submit.prevent="gosearch">

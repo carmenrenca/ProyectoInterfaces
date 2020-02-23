@@ -10,7 +10,7 @@
     <ul class="navbar-nav" >
       <li class="nav-item "  v-for="item of this.categori" :key="item">
  
-        <a class="nav-link" type="submit" href="#" @click="gosearch(item.title)"  >{{item.title}} <span class="sr-only">(current)</span></a>
+        <a class="nav-link"  type="submit" href="#" @click="gosearch(item.title)"  >{{item.title}} </a>
 
       </li>
       
@@ -60,9 +60,17 @@ this.getCategori();
        gosearch(searchString){
          
 
-         console.log(searchString)
-          this.$router.push('/categoria/'+searchString);
+         console.log(searchString+"sdd")
+          this.$router.push('/redirectCategori/'+searchString);
+            
+
     }
-  }
+  },
+   computed: {
+  route: function  currentRouteName() {
+    console.log(this.$route.name)
+        return this.$route.name;
+    }
+  }, 
   }
 </script>

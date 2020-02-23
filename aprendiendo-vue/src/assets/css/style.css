@@ -164,7 +164,7 @@ body {
 
 #menu ul{
     line-height: 85px;
-    width: 60%;
+    width: 80%;
     float:right;
 }
 
@@ -520,17 +520,14 @@ textarea{
     border:none;
 }
 
-/*RESPONSIVE*/
 
-/*Desde la anchura 963px hasta la anchura 1488px de pantalla*/
 @media (max-width: 1488px){
-    /*Se ejecutarán estos estilos*/
+  
     .center{
         width: 85%;
     }
 }
 
-/*Desde la anchura 0px hasta la anchura 963px de pantalla*/
 @media (max-width: 1314px){
     .center{
         width: 95%;
@@ -636,14 +633,13 @@ textarea{
 
 * {box-sizing:border-box}
 
-/* Slideshow container */
+
 .slideshow-container {
   max-width: 1000px;
   position: relative;
   margin: auto;
 }
 
-/* Hide the images by default */
 .mySlides {
   display: none;
 }
@@ -695,7 +691,6 @@ textarea{
   top: 0;
 }
 
-/* The dots/bullets/indicators */
 .dot {
   cursor: pointer;
   height: 15px;
@@ -711,14 +706,58 @@ textarea{
   background-color: #717171;
 }
 
-/* Fading animation */
 .fade {
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
   animation-name: fade;
   animation-duration: 1.5s;
 }
-
+.spinner {
+    display: inline-block;
+    text-align: center;
+    font-size: 10px;
+ 
+      line-height: 0;
+      box-sizing: border-box;
+    
+  }
+  .rect{
+    animation: sk-stretchdelay 1.2s ease-in-out infinite;
+  }
+  .spinner > div {
+    height: 100%;
+    width: 10%;
+    display: inline-block;
+  }
+  .spinner .rect-2 {
+    animation-delay: -1.1s;
+  }
+  .spinner .rect-3 {
+    animation-delay: -1.0s;
+  }
+  .spinner .rect-4 {
+    animation-delay: -0.9s;
+  }
+  .spinner .rect-5 {
+    animation-delay: -0.8s;
+  }
+  .example-slide {
+    align-items: center;
+    background-color: #666;
+    color: #999;
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: center;
+    min-height: 10rem;
+  }
+  @keyframes sk-stretchdelay {
+    0%, 40%, 100% {
+      transform: scaleY(0.4);
+    }
+    20% {
+      transform: scaleY(1.0);
+    }
+  }
 @-webkit-keyframes fade {
   from {opacity: .4}
   to {opacity: 1}

@@ -18,9 +18,11 @@ import Cliente from './components/Cliente.vue';
 import Search from './components/Search.vue';
 import Redirect from './components/redirect.vue';
 import Article from './components/Article.vue';
+import Evento from './components/Evento.vue';
 import ClienteGes from './components/ClienteGestion.vue';
 import CreateArticle from './components/CreateArticle.vue';
 import CreateCliente from './components/CreateCliente';
+import CreateEvento from './components/CrearEvento.vue';
 import EditArticle from './components/EditArticle.vue';
 import login from './components/login.vue';
 import registro from './components/registre.vue';
@@ -32,6 +34,9 @@ import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import CreateCategoria from './components/CrearCategory.vue';
 import SearchCategori from './components/searchcategori.vue';
 import perfil from './components/perfil.vue';
+import RedirectCategori from './components/redirectCategori.vue';
+import TablonEventos from './components/TablonEvento.vue';
+
 //import hooks from './router/hooks'
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -52,12 +57,16 @@ const  routes=[
   {path:'/Hola-word', component: HelloWorld},
   {path:'/LastArticle', component: LastArticle},
   {path:'/Blog', component:Blog},
+  {path:'/TablonEventos', name:'TablonEventos', component:TablonEventos},
+  {path:'/CreateEvento', name:'CreateEvento', component:CreateEvento},
   {path:'/articulo/:id', name:'article', component: Article},
+  {path:'/evento/:id', name:'evento', component: Evento},
   {path:'/cliente/:id', name:'cliente', component: ClienteGes},
   {path:'/Pagina1', component:Pagina},
   {path:'/Cliente', component:Cliente, name:'Cliente'},
   {path:'/Articulos', name:'Articulos', component:Articulos},
   {path:'/redirect/:searchString',  component:Redirect},
+  {path:'/redirectCategori/:searchString',  component:RedirectCategori},
   {path:'/buscador/:searchString', component:Search},
   {path:'/categoria/:searchString', component:SearchCategori},
   {path:'/Factura', name:'Factura', component:Factura},

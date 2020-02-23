@@ -1,6 +1,6 @@
 <template>
   <div class="general">
-    <div class="center">
+
       <section id="content">
         <h2 class="subheader">Factura</h2>
         <br />
@@ -9,11 +9,11 @@
        
     </div>
 
-        <form>
+        <form class="col-lg-12" >
           <h5>Cliente</h5>
           <div id="search" class="sidebar-item">
             <h3>Buscador</h3>
-            <p>Encuentra el cliente que buscas</p>
+            <p>Escoga un cliente:</p>
             <form @submit.prevent="getClienteBySearch(searchString)">
               <input type="text" name="search" v-model="searchString" />
               <input type="submit" name="submit" value="Buscar" class="btn" />
@@ -52,14 +52,77 @@
   </tbody>
 </table>
   
-        
+           <b-button v-b-modal.modal-1>+Producto</b-button>
+             <div class="clearfix col-md-2"></div>
+   <div class="table-responsive ">
+            <table class="table table-striped col-lg-12 " id="tablafactura">
+          <thead class="thead-dark">
+            <tr>
+           
+
+              <th scope="col">NOMBRE ART.</th>
+              <th scope="col">PRECIO UNIT.</th>
+              <th scope="col">CANT.</th>
+              <th scope="col">PRECIO TOTAL</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody id="lineaf">
+            <tr v-for="item in lineafactura" v-bind:key="item.nombre">
+
+        <td><input v-model="item.nombre" ></td>
+        <td> <input v-model="item.precio_uni" v-on:change="calculoslineaventa(item)" ></td>
+        <td>  <input type="number" v-model="item.cant" v-on:click="calculoslineaventa(item)" ></td>
+  
+           <td>  <input v-model="item.precio_tota"></td>
+      <td><button type="button" class="close" v-on:click="eliminalinea(item)"  aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button></td>
+              </tr>
+            <tr v-for="checkedName in checkedNames" v-bind:key="checkedName"></tr>
+          </tbody>
+          <tfoot id="lineafooter">
+          
+            <td></td>
+                  <td></td>
+            <td></td>
+            <td>SUBTOTAL € <input id="subtotal" type="text" class="form-control col-lg-12" v-model="subtotal" /></td>
+            <td>
+             
+            </td>
+            <tr>
+              <td></td>
+              <td></td>
+                   <td></td>
+              <td>IVA %   <input  id="iva"
+                          type="number"
+                      class="form-control col-9"
+                         v-model="iva"
+                          @click="calculoiva()"
+                      
+                        /></td>
+             <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>  TOTAL   <input id="total" type="text" class="form-control col-lg-11 " v-model="total" /></td>
+              <td>
+             
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+       
+         </div>
 </template>
         </form>
         <div>
-          <b-button v-b-modal.modal-1>+Producto</b-button>
-
+       
           <b-modal id="modal-1" size="xl" title="Articulos">
-            <v-card class="mx-auto" max-width="300" tile></v-card>
+            <v-card class="mx-auto" max-width="300" ></v-card>
 
             <div id="search" class="sidebar-item">
               <h3>Buscador</h3>
@@ -130,75 +193,13 @@
         </div>
 
 
-        <br />
-        <br />
-       
+        <div class="clearfix"></div>
       </section>
 
-       <div class="table-responsive ">
-            <table class="table table-striped col-lg-12 " id="tablafactura">
-          <thead class="thead-dark">
-            <tr>
-           
-
-              <th scope="col">NOMBRE ART.</th>
-              <th scope="col">PRECIO UNIT.</th>
-              <th scope="col">CANT.</th>
-              <th scope="col">PRECIO TOTAL</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody id="lineaf">
-            <tr v-for="item in lineafactura" v-bind:key="item.nombre">
-
-        <td><input v-model="item.nombre" ></td>
-        <td> <input v-model="item.precio_uni" v-on:change="calculoslineaventa(item)" ></td>
-        <td>  <input type="number" v-model="item.cant" v-on:click="calculoslineaventa(item)" ></td>
-  
-           <td>  <input v-model="item.precio_tota"></td>
-      
-              </tr>
-            <tr v-for="checkedName in checkedNames" v-bind:key="checkedName"></tr>
-          </tbody>
-          <tfoot id="lineafooter">
-          
-            <td></td>
-                  <td></td>
-            <td></td>
-            <td>SUBTOTAL € <input id="subtotal" type="text" class="form-control col-lg-12" v-model="subtotal" /></td>
-            <td>
-             
-            </td>
-            <tr>
-              <td></td>
-              <td></td>
-                   <td></td>
-              <td>IVA %   <input  id="iva"
-                          type="number"
-                      class="form-control col-9"
-                         v-model="iva"
-                          @click="calculoiva()"
-                      
-                        /></td>
-             <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>  TOTAL   <input id="total" type="text" class="form-control col-lg-11 " v-model="total" /></td>
-              <td>
-             
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-       
-         </div>
+    
     
       <Sidebar></Sidebar>
-    </div>
+
     <div class="clearfix"></div>
       <div>
          <button type="button"  @click="descargarPDF" class="btn btn-dark">Download PDF</button>
@@ -220,7 +221,7 @@ import { global } from "../global";
 import Cliente from "../models/Cliente";
 import Article from "../models/Article";
 import form from "../models/form";
-
+import swal from "sweetalert";
 import jsPDF from 'jspdf'
 import JsPDFAutotable from 'jspdf-autotable' ;
 //import VModal from 'vue-js-modal'
@@ -292,10 +293,22 @@ export default {
   },
   methods: {
      
-    
-    descargarPDF(){
+    eliminalinea(item){
+   
+     
 
-    var hoy=new Date();
+       var a = this.lineafactura.findIndex(e=> e.nombre===item.nombre);
+this.lineafactura.splice(a, 1);
+     this.subtotal=this.subtotal-item.precio_uni;
+      var aux=this.subtotal/this.iva;
+this.total=  aux+this.subtotal;
+this.total=Math.trunc(this.total);  
+
+    },
+    descargarPDF(){
+var yea=document.getElementById("tablacliente").rows.length;
+  if(yea==2){
+var hoy=new Date();
     var fecha= hoy.getDate()+' '+(hoy.getMonth()+1)+' '+hoy.getFullYear();
     var hora=hoy.getHours()+' '+hoy.getMinutes()+' '+hoy.getSeconds();
     var fechahora=fecha+' '+hora;
@@ -349,6 +362,14 @@ doc.text(20, 20, 'FACURA                                           ');
 doc.autoTable(columns2, rows2);
 doc.save('table.pdf');
   
+  }else{
+  swal(
+            "Error",
+            "Debe de escoger un cliente para crear la factura",
+            "error"
+          );
+  }
+    
 
   
 },

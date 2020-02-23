@@ -39,16 +39,16 @@ export default {
   },
   
   mounted() {
-      this.searchString=this.$route.params.searchString
-      //var searchString= this.$route.params.searchString;
-    this.getArticleBySearch(this.searchString);
+     // this.searchString=this.$route.params.searchString
+      var searchString= this.$route.params.searchString;
+    this.getArticleBySearch(searchString);
   },
   data() {
    
     return {
        url: global.url,
       articles: [],
-          searchString:this.$route.params.searchString
+        //  searchString:this.$route.params.searchString
     };
   },
   methods: {
@@ -61,11 +61,7 @@ export default {
         }
       
       });
-        this.searchString=""; 
-        console.log("salimoss") 
-                  this.$router.replace('/categoria/'+searchString);
-               
-
+       
  
     } 
   }

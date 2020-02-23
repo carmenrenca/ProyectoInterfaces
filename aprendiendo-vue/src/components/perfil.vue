@@ -1,7 +1,17 @@
 <template>
 
  <form class="col-md-5 center">
-     <img src='../assets/user.png' alt="..." class="img-thumbnail whi " height="100" width="100">
+
+ <div class="row ">
+         <div class="col-md-4"></div>
+          <img src='../assets/user.png' alt="..." class="img-thumbnail whi col-md-5" height="100" width="100">
+
+    
+   </div>
+      
+
+  
+     
   <div class="form-group row">
         <label  class="col-sm-2 col-form-label">Nombre</label>
     <div class="col-sm-10">
@@ -19,8 +29,9 @@
       <label for="staticDNI" class="col-sm-2 col-form-label">Roles</label>
     <div class="form-group col-sm-10">
     
-    <select placeholder="escribe tu nombre" v-model="rol" class="form-control" id="exampleFormControlSelect1">
-      <option>Administrador</option>
+    <select value="escribe tu nombre" v-model="rol" class="form-control" id="exampleFormControlSelect1">
+         
+      <option >Administrador</option>
       <option>Cliente</option>
     </select>
   </div>
@@ -35,9 +46,9 @@
   </div>
   <div class="form-group row">
   
-    <div>   <button  type="button" class="btn btn-warning"  v-on:click="updateuser()">Editar</button></div>
-    
-  <div>   <button  type="button" class="btn btn-danger" v-on:click="deleteuser()" >Eliminar Mi Cuenta</button></div>
+    <div>   <button  type="button" class="btn btn-warning"  v-on:click="updateuser()">Modificar</button></div>
+    <div class="col-md-1"></div>
+  <div>   <button  type="button" class="btn btn-danger" v-on:click="deleteuser()" >Eliminar Cuenta</button></div>
     
   </div>
 </form>
@@ -60,6 +71,8 @@ export default {
     this.getclientes(this.clienteID);
   },
     data() {
+      const token = localStorage.usertoken
+const decoded = jwtDecode(token);
     return {
       clienteID:'',
       nombre:'',
@@ -70,7 +83,8 @@ export default {
       password:'',
       direccion:'',
       url: global.url ,
-      id:''
+      id:'',
+      rol:decoded.identity.rol
       
     };
   },
@@ -144,6 +158,7 @@ Swal.fire({
               "success"
             );
           console.log(res)
+          this.cerrarsesion();
         })
         .catch(err => {
           console.log(err)
@@ -160,8 +175,17 @@ this.email= decoded.identity.email;
 this.direccion=decoded.identity.direccion;
 this.password= decoded.identity.password;
 this.id=decoded.identity.id;
-console.log("email "+this.id)
-  }
+
+  },
+
+    cerrarsesion(){
+          localStorage.removeItem('usertoken');      
+            
+            setTimeout(() => {
+              this.$router.push("/")
+            }, 1500)
+            
+         }
     }
 
 };
